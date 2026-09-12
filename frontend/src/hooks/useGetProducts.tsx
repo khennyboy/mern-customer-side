@@ -8,10 +8,13 @@ import type {
 import { useProductStore } from "../store/products-store";
 
 const fetchProducts = async (page: number, signal?: AbortSignal) => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/?page=${page}`, {
-    credentials: "include",
-    signal,
-  });
+  const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/products/?page=${page}`,
+    {
+      credentials: "include",
+      signal,
+    },
+  );
 
   if (!res.ok) {
     const errorJson: GetProductsErrorResponse = await res.json().catch(
