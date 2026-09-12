@@ -8,7 +8,7 @@ import type {
 import { useProductStore } from "../store/products-store";
 
 const fetchProducts = async (page: number, signal?: AbortSignal) => {
-  const res = await fetch(`http://localhost:3000/products?page=${page}`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/?page=${page}`, {
     credentials: "include",
     signal,
   });
