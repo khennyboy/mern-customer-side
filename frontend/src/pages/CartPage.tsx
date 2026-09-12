@@ -129,9 +129,9 @@ const CartPage = () => {
                       flexShrink={0}
                     />
 
-                    <VStack align={"start"} flex={1} gap={3} minW={0}>
-                      <VStack align={"start"} gap={0.5}>
-                        <HStack gap={1.5}>
+                    <VStack align={"stretch"} flex={1} gap={3} minW={0}>
+                      <VStack align={"stretch"} gap={0.5}>
+                        <HStack gap={1.5} justifyContent={"space-between"}>
                           <Text
                             fontWeight={"medium"}
                             fontSize={"md"}
@@ -156,16 +156,16 @@ const CartPage = () => {
                       <HStack
                         border={"1px solid"}
                         borderColor={stepperBorder}
-                        rounded={"full"}
+                        rounded={"lg"}
                         gap={0}
-                        w={"fit-content"}
+                        justifyContent={"space-between"}
                       >
                         <IconButton
                           aria-label="Decrease quantity"
                           onClick={() => updateQuantity(item._id, "decrease")}
                           variant={"ghost"}
                           size={"sm"}
-                          rounded={"full"}
+                          px={4}
                         >
                           <LuMinus size={16} />
                         </IconButton>
@@ -182,7 +182,7 @@ const CartPage = () => {
                           onClick={() => updateQuantity(item._id, "increase")}
                           variant={"ghost"}
                           size={"sm"}
-                          rounded={"full"}
+                          px={4}
                         >
                           <LuPlus size={16} />
                         </IconButton>
