@@ -15,7 +15,7 @@ export type CartState = {
     items: CartItem[];
     addToCart: (product: ProductDetail) => void;
     removeFromCart: (id: string) => void;
-    updateQuantity: (id: string, action: string) => void;
+    updateQuantity: (id: string, action: "increase" | "decrease") => void;
     totalPrice: () => number;
 };
 
