@@ -115,94 +115,92 @@ const CartPage = () => {
           gap={{ base: 8, lg: 8 }}
         >
           <GridItem>
-            <VStack align={"stretch"} gap={0}>
-              {visibleItems.map((item, index) => (
-                <Box key={item._id}>
-                  {index > 0 && <Separator borderColor={dividerColor} />}
-                  <HStack py={5} gap={4} align={"start"}>
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      boxSize={{ base: "72px", sm: "88px" }}
-                      objectFit={"cover"}
-                      rounded={"md"}
-                      flexShrink={0}
-                    />
+            {visibleItems.map((item, index) => (
+              <Box key={item._id}>
+                {index > 0 && <Separator borderColor={dividerColor} />}
+                <HStack py={5} gap={4} align={"start"}>
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    boxSize={{ base: "72px", sm: "88px" }}
+                    objectFit={"cover"}
+                    rounded={"md"}
+                    flexShrink={0}
+                  />
 
-                    <VStack align={"stretch"} flex={1} gap={3} minW={0}>
-                      <VStack align={"stretch"} gap={0.5}>
-                        <HStack gap={1.5} justifyContent={"space-between"}>
-                          <Text
-                            fontWeight={"medium"}
-                            fontSize={"md"}
-                            lineClamp={1}
-                            color={headingColor}
-                          >
-                            {item.name}
-                          </Text>
-                          <Text color={subTextColor} fontSize={"sm"}>
-                            x{item.quantity}
-                          </Text>
-                        </HStack>
+                  <VStack align={"stretch"} flex={1} gap={3} minW={0}>
+                    <VStack align={"stretch"} gap={0.5}>
+                      <HStack gap={1.5} justifyContent={"space-between"}>
                         <Text
-                          fontWeight={"semibold"}
-                          fontSize={"md"}
-                          color={priceColor}
-                        >
-                          ${item.price.toFixed(2)}
-                        </Text>
-                      </VStack>
-
-                      <HStack
-                        border={"1px solid"}
-                        borderColor={stepperBorder}
-                        rounded={"lg"}
-                        gap={0}
-                        justifyContent={"space-between"}
-                      >
-                        <IconButton
-                          aria-label="Decrease quantity"
-                          onClick={() => updateQuantity(item._id, "decrease")}
-                          variant={"ghost"}
-                          size={"sm"}
-                          px={4}
-                        >
-                          <LuMinus size={16} />
-                        </IconButton>
-                        <Text
-                          fontSize={"sm"}
                           fontWeight={"medium"}
-                          minW={"28px"}
-                          textAlign={"center"}
+                          fontSize={"md"}
+                          lineClamp={1}
+                          color={headingColor}
                         >
-                          {item.quantity}
+                          {item.name}
                         </Text>
-                        <IconButton
-                          aria-label="Increase quantity"
-                          onClick={() => updateQuantity(item._id, "increase")}
-                          variant={"ghost"}
-                          size={"sm"}
-                          px={4}
-                        >
-                          <LuPlus size={16} />
-                        </IconButton>
+                        <Text color={subTextColor} fontSize={"sm"}>
+                          x{item.quantity}
+                        </Text>
                       </HStack>
+                      <Text
+                        fontWeight={"semibold"}
+                        fontSize={"md"}
+                        color={priceColor}
+                      >
+                        ${item.price.toFixed(2)}
+                      </Text>
                     </VStack>
 
-                    <IconButton
-                      aria-label="Remove item"
-                      onClick={() => handleRemove(item._id, item.name)}
-                      variant={"ghost"}
-                      size={"xs"}
-                      color={iconMuted}
-                      _hover={{ color: "red.500" }}
+                    <HStack
+                      border={"1px solid"}
+                      borderColor={stepperBorder}
+                      rounded={"lg"}
+                      gap={0}
+                      justifyContent={"space-between"}
                     >
-                      <LuTrash2 size={15} />
-                    </IconButton>
-                  </HStack>
-                </Box>
-              ))}
-            </VStack>
+                      <IconButton
+                        aria-label="Decrease quantity"
+                        onClick={() => updateQuantity(item._id, "decrease")}
+                        variant={"ghost"}
+                        size={"sm"}
+                        px={4}
+                      >
+                        <LuMinus size={16} />
+                      </IconButton>
+                      <Text
+                        fontSize={"sm"}
+                        fontWeight={"medium"}
+                        minW={"28px"}
+                        textAlign={"center"}
+                      >
+                        {item.quantity}
+                      </Text>
+                      <IconButton
+                        aria-label="Increase quantity"
+                        onClick={() => updateQuantity(item._id, "increase")}
+                        variant={"ghost"}
+                        size={"sm"}
+                        px={4}
+                      >
+                        <LuPlus size={16} />
+                      </IconButton>
+                    </HStack>
+                  </VStack>
+
+                  <IconButton
+                    aria-label="Remove item"
+                    onClick={() => handleRemove(item._id, item.name)}
+                    variant={"ghost"}
+                    size={"xs"}
+                    color={iconMuted}
+                    _hover={{ color: "red.500" }}
+                  >
+                    <LuTrash2 size={15} />
+                  </IconButton>
+                </HStack>
+              </Box>
+            ))}
 
             {hasMore && (
               <Box pt={4}>
