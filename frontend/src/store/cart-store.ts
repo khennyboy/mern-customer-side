@@ -17,7 +17,7 @@ export const useCartStore = create<CartState>()(
                     items: state.items.filter((item) => item._id !== id),
                 })),
 
-            updateQuantity: (id, action: "increase" | "decrease") =>
+            updateQuantity: (id, action) =>
                 set((state) => {
                     const item = state.items.find((i) => i._id === id);
                     if (!item) return state;
