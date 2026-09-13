@@ -122,10 +122,11 @@ const CartPage = () => {
                   <Image
                     src={item.image}
                     alt={item.name}
-                    boxSize={{ base: "72px", sm: "88px" }}
+                    width={{ base: "80px", sm: "90px" }}
                     objectFit={"cover"}
                     rounded={"md"}
                     flexShrink={0}
+                    alignSelf={"stretch"}
                   />
 
                   <VStack align={"stretch"} flex={1} gap={3} minW={0}>
@@ -155,8 +156,9 @@ const CartPage = () => {
                     <HStack
                       border={"1px solid"}
                       borderColor={stepperBorder}
-                      rounded={"lg"}
+                      rounded={"full"}
                       gap={0}
+                      overflow={"hidden"}
                       justifyContent={"space-between"}
                     >
                       <IconButton
@@ -165,6 +167,8 @@ const CartPage = () => {
                         variant={"ghost"}
                         size={"sm"}
                         px={4}
+                        py={3}
+                        h={"auto"}
                       >
                         <LuMinus size={16} />
                       </IconButton>
@@ -182,6 +186,8 @@ const CartPage = () => {
                         variant={"ghost"}
                         size={"sm"}
                         px={4}
+                        py={3}
+                        h={"auto"}
                       >
                         <LuPlus size={16} />
                       </IconButton>
@@ -191,7 +197,7 @@ const CartPage = () => {
                   <IconButton
                     aria-label="Remove item"
                     onClick={() => handleRemove(item._id, item.name)}
-                    variant={"ghost"}
+                    variant={"surface"}
                     size={"xs"}
                     color={iconMuted}
                     _hover={{ color: "red.500" }}
