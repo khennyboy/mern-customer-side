@@ -12,6 +12,7 @@ import {
   VStack,
   Center,
   Separator,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -119,15 +120,17 @@ const CartPage = () => {
               <Box key={item._id}>
                 {index > 0 && <Separator borderColor={dividerColor} />}
                 <HStack py={5} gap={4} align={"start"}>
+                    <AspectRatio ratio={1}>
                   <Image
                     src={item.image}
                     alt={item.name}
-                    width={{ base: "80px", sm: "90px" }}
+                    // width={{ base: "80px", sm: "90px" }}
                     objectFit={"cover"}
                     rounded={"md"}
                     flexShrink={0}
                     alignSelf={"stretch"}
                   />
+                    </AspectRatio>
 
                   <VStack align={"stretch"} flex={1} gap={3} minW={0}>
                     <VStack align={"stretch"} gap={0.5}>
