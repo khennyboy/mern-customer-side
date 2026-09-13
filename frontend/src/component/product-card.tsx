@@ -1,18 +1,17 @@
 import {
-  AspectRatio,
   Box,
   Button,
   HStack,
   IconButton,
   Image,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { LuMinus, LuPlus, LuShoppingCart } from "react-icons/lu";
 import { useColorModeValue } from "../components/ui/color-mode";
 import { useCartStore } from "../store/cart-store";
-import type { ProductDetail } from "../utils/types";
 import toast from "../utils/toast";
+import type { ProductDetail } from "../utils/types";
 
 const ProductCard = ({ product }: { product: ProductDetail }) => {
   const cardBg = useColorModeValue("white", "gray.900");
@@ -39,14 +38,14 @@ const ProductCard = ({ product }: { product: ProductDetail }) => {
       display="flex"
       flexDirection="column"
     >
-      <AspectRatio ratio={1}>
-        <Image
-          src={product.image}
-          alt={product.name}
-          objectFit={"cover"}
-          bg={imageBg}
-        />
-      </AspectRatio>
+      {/* <AspectRatio ratio={1}> */}
+      <Image
+        src={product.image}
+        alt={product.name}
+        objectFit={"cover"}
+        bg={imageBg}
+      />
+      {/* </AspectRatio> */}
 
       <VStack gap={3} alignItems={"stretch"} p={2} flex={1}>
         <HStack
