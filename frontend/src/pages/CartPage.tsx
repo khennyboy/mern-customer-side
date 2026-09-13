@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   Grid,
   GridItem,
@@ -8,15 +9,13 @@ import {
   HStack,
   IconButton,
   Image,
+  Separator,
   Text,
   VStack,
-  Center,
-  Separator,
-  AspectRatio,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { LuMinus, LuPlus, LuShoppingBag, LuTrash2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { LuMinus, LuPlus, LuTrash2, LuShoppingBag } from "react-icons/lu";
 import { useColorModeValue } from "../components/ui/color-mode";
 import { useCartStore } from "../store/cart-store";
 import toast from "../utils/toast";
@@ -120,7 +119,7 @@ const CartPage = () => {
               <Box key={item._id}>
                 {index > 0 && <Separator borderColor={dividerColor} />}
                 <HStack py={5} gap={4} align={"start"}>
-                    <AspectRatio ratio={1}>
+                  {/* <AspectRatio ratio={1}> */}
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -130,7 +129,7 @@ const CartPage = () => {
                     flexShrink={0}
                     alignSelf={"stretch"}
                   />
-                    </AspectRatio>
+                  {/* </AspectRatio> */}
 
                   <VStack align={"stretch"} flex={1} gap={3} minW={0}>
                     <VStack align={"stretch"} gap={0.5}>
