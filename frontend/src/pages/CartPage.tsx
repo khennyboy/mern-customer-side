@@ -11,7 +11,7 @@ import {
   Image,
   Separator,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuMinus, LuPlus, LuShoppingBag, LuTrash2 } from "react-icons/lu";
@@ -123,7 +123,7 @@ const CartPage = () => {
                   <Image
                     src={item.image}
                     alt={item.name}
-                    // width={{ base: "80px", sm: "90px" }}
+                    width={{ base: "80px", sm: "90px" }}
                     objectFit={"cover"}
                     rounded={"md"}
                     flexShrink={0}
@@ -201,7 +201,7 @@ const CartPage = () => {
                     onClick={() => handleRemove(item._id, item.name)}
                     variant={"surface"}
                     size={"xs"}
-                    color={iconMuted}
+                    colorPalette={"red"}
                     _hover={{ color: "red.500" }}
                   >
                     <LuTrash2 size={15} />
