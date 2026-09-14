@@ -9,7 +9,7 @@ import { useProductStore } from "../store/products-store";
 
 const fetchProducts = async (page: number, signal?: AbortSignal) => {
   const res = await fetch(
-    `${import.meta.env.BACKEND_URL}/products/?page=${page}`,
+    `${import.meta.env.VITE_BACKEND_URL}/products/?page=${page}`,
     {
       credentials: "include",
       signal,
