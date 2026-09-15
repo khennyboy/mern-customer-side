@@ -6,7 +6,7 @@ import { useCartStore } from "../store/cart-store";
 
 const verifyPayment = async (reference: string) => {
   const res = await fetch(
-    `${import.meta.env.VITE_ADMIN_URL}/orders/verify?reference=${reference}`,
+    `${import.meta.env.VITE_ADMIN_URL}/api/orders/verify?reference=${reference}`,
     {
       credentials: "include",
     },
