@@ -11,7 +11,7 @@ import {
   Image,
   Separator,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuMinus, LuPlus, LuShoppingBag, LuTrash2 } from "react-icons/lu";
@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { useColorModeValue } from "../components/ui/color-mode";
 import { useCartStore } from "../store/cart-store";
 import toast from "../utils/toast";
+import { useProductStore } from "../store/products-store";
 
 const PAGE_SIZE = 10;
 
@@ -27,6 +28,7 @@ const CartPage = () => {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const totalPrice = useCartStore((state) => state.totalPrice);
+  const setCartDialog = useProductStore((state) => state.setCartDialog);
 
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -272,6 +274,7 @@ const CartPage = () => {
                 </Text>
               </HStack>
               <Button
+              onClick={()=>setCartDialog(true)}
                 colorPalette={"purple"}
                 w={"full"}
                 rounded={"full"}

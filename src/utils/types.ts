@@ -1,3 +1,4 @@
+import type { InputProps } from "@chakra-ui/react";
 
 export type ProductDetail = {
     name: string;
@@ -9,14 +10,15 @@ export type ProductDetail = {
     __v: number;
 }
 
-export type CartItem = ProductDetail & { quantity: number };
+export type CartItemDetails = ProductDetail & { quantity: number };
 
 export type CartState = {
-    items: CartItem[];
+    items: CartItemDetails[];
     addToCart: (product: ProductDetail) => void;
     removeFromCart: (id: string) => void;
     updateQuantity: (id: string, action: "increase" | "decrease") => void;
     totalPrice: () => number;
+    clearCart: () => void
 };
 
 export type ProductStore = {
@@ -25,6 +27,8 @@ export type ProductStore = {
     totalProducts: number;
     pageSize: number;
     setCounts: (totalProducts: number, pageSize: number) => void;
+    CartDialog: boolean,
+    setCartDialog: (open: boolean) => void
 };
 
 
@@ -47,4 +51,40 @@ export type Pagination = {
     totalProducts: number;
     hasNextPage: boolean;
     hasPrevPage: boolean;
+};
+
+
+// utils/types.ts
+export interface Product {
+    _id: string;
+    name: string;
+    price: number;
+    image: string;
+}
+
+export interface CartedItem {
+    product: string; // the Product's _id
+    name: string;
+    price: number;
+    quantity: number;
+}
+
+export interface Order {
+    _id: string;
+    customerName: string;
+    customerEmail: string;
+    shippingAddress: string;
+    phone: string;
+    items: CartedItem[];
+    totalAmount: number;
+    paystackReference: string;
+    paymentStatus: "pending" | "success" | "failed";
+    deliveryStatus: "pending" | "delivered";
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type FloatingInputProps = InputProps & {
+    label: string;
+    error?: string
 };

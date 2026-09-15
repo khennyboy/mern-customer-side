@@ -7,4 +7,8 @@ export const useProductStore = create<ProductStore>((set) => ({
     totalProducts: 0,
     pageSize: 0,
     setCounts: (totalProducts, pageSize) => set({ totalProducts, pageSize }),
+    CartDialog: false,
+    setCartDialog: (open) => set({
+        CartDialog: open
+    })
 }));

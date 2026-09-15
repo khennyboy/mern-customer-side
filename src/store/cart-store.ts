@@ -17,6 +17,10 @@ export const useCartStore = create<CartState>()(
                     items: state.items.filter((item) => item._id !== id),
                 })),
 
+            clearCart: () => set(() => ({
+                items: []
+            })),
+
             updateQuantity: (id, action) =>
                 set((state) => {
                     const item = state.items.find((i) => i._id === id);
@@ -39,8 +43,7 @@ export const useCartStore = create<CartState>()(
                     };
                 }),
 
-            totalPrice: () =>
-                get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+            totalPrice: () => get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
         }),
         { name: "cart-storage" }
     )
