@@ -32,6 +32,18 @@ const PaymentVerifyPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isLoading]);
+
   const status =
     !reference || isError || (data && !data.success)
       ? "failed"
@@ -46,6 +58,15 @@ const PaymentVerifyPage = () => {
           <>
             <Spinner size="xl" />
             <Text>Confirming your payment…</Text>
+            <Text
+              fontSize="sm"
+              color="orange.500"
+              textAlign="center"
+              maxW="320px"
+            >
+              Please don't close or refresh this page until confirmation is
+              complete, or your order may not go through.
+            </Text>
           </>
         )}
         {status === "success" && (
