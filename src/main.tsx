@@ -8,6 +8,7 @@ import App from "./App.tsx";
 
 import { Provider } from "./components/ui/provider.tsx";
 import ScrollToTop from "./component/ScrollToTop.tsx";
+import ErrorBoundary from "./component/ErrorBoundary.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,8 +25,10 @@ createRoot(document.getElementById("root")!).render(
       <ReactQueryDevtools initialIsOpen={false} />
       <Provider>
         <BrowserRouter>
-          <ScrollToTop />
-          <App />
+          <ErrorBoundary>
+            <ScrollToTop />
+            <App />
+          </ErrorBoundary>
         </BrowserRouter>
       </Provider>
     </QueryClientProvider>
