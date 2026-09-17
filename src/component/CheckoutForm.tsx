@@ -8,7 +8,7 @@ import FloatingInput from "./FloatingInput";
 import useInitializePayment from "../hooks/useInitializePayment";
 import type { CartedItem } from "../utils/types";
 import useAutofillRevalidate from "../hooks/useAutofillRevalidate";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
@@ -16,7 +16,7 @@ const CheckoutForm = () => {
   const items = useCartStore((state) => state.items);
   const totalAmount = useCartStore((state) => state.totalPrice());
   const formRef = useRef<HTMLDivElement>(null);
-
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
   const { checkout, isCheckingOut } = useInitializePayment();
 
   const {
@@ -39,11 +39,16 @@ const CheckoutForm = () => {
       quantity: item.quantity,
     }));
 
-    checkout({
-      ...values,
-      items: orderItems,
-      totalAmount,
-    });
+    checkout(
+      {
+        ...values,
+        items: orderItems,
+        totalAmount,
+      },
+      {
+        onSuccess: () => setIsRedirecting(true),
+      },
+    );
   };
 
   useAutofillRevalidate(formRef, trigger);
@@ -123,7 +128,7 @@ const CheckoutForm = () => {
         w="full"
         loading={isCheckingOut}
         loadingText="Redirecting..."
-        disabled={isCheckingOut || !isValid}
+        disabled={isCheckingOut || !isValid || isRedirecting}
         mt={2}
         size={"lg"}
         rounded={"lg"}

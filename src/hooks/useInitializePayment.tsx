@@ -19,12 +19,15 @@ interface InitializePaymentResponse {
 const initializePayment = async (
   payload: InitializePaymentPayload,
 ): Promise<InitializePaymentResponse> => {
-  const res = await fetch(`${import.meta.env.VITE_ADMIN_URL}/api/orders/initialize`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(payload),
-  });
+  const res = await fetch(
+    `${import.meta.env.VITE_ADMIN_URL}/api/orders/initialize`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(payload),
+    },
+  );
 
   const data = await res.json();
 
@@ -40,7 +43,7 @@ const useInitializePayment = () => {
     mutationFn: initializePayment,
     onSuccess: (data) => {
       // Paystack gives you a hosted payment page — send the browser there
-      window.location.href = data.authorization_url;
+      window.location.replace(data.authorization_url);
     },
   });
 
