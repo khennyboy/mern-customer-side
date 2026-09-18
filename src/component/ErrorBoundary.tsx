@@ -12,10 +12,11 @@ interface State {
 class ErrorBoundary extends Component<Props, State> {
   state: State = { hasError: false, error: null };
 
+  // React automatically calls this the instant any component below ErrorBoundary in the tree
   static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
-
+  // Also auto-called by React, right after the error is caught — used here for logging to your
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error("App crashed:", error, info);
   }
