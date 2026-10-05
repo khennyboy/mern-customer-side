@@ -1,5 +1,6 @@
 import {
   AspectRatio,
+  Badge,
   Box,
   Button,
   HStack,
@@ -14,6 +15,15 @@ import { useCartStore } from "../store/cart-store";
 import type { ProductDetail } from "../utils/types";
 import toast from "../utils/toast";
 
+const LOW_STOCK = 5;
+
+const getStockInfo = (quantity: number) => {
+  if (quantity <= 0) return { label: "Out of stock", palette: "red" };
+  if (quantity <= LOW_STOCK)
+    return { label: `Only ${quantity} left`, palette: "orange" };
+  return { label: `${quantity} in stock`, palette: "green" };
+};
+
 const ProductCard = ({ product }: { product: ProductDetail }) => {
   const cardBg = useColorModeValue("white", "gray.900");
   const cardBorder = useColorModeValue("gray.200", "gray.800");
@@ -25,10 +35,14 @@ const ProductCard = ({ product }: { product: ProductDetail }) => {
   const cartItem = useCartStore((state) =>
     state.items.find((item) => item._id === product._id),
   );
-
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-
   const addToCart = useCartStore((state) => state.addToCart);
+
+  const stock = getStockInfo(product.quantity);
+  const soldOut = product.quantity <= 0;
+  // The customer already has every available item in the cart
+  const atLimit = !!cartItem && cartItem.quantity >= product.quantity;
+
   return (
     <Box
       bg={cardBg}
@@ -39,14 +53,30 @@ const ProductCard = ({ product }: { product: ProductDetail }) => {
       display="flex"
       flexDirection="column"
     >
-      <AspectRatio ratio={1}>
-        <Image
-          src={product.image}
-          alt={product.name}
-          objectFit={"cover"}
-          bg={imageBg}
-        />
-      </AspectRatio>
+      <Box position="relative">
+        <AspectRatio ratio={1}>
+          <Image
+            src={product.image}
+            alt={product.name}
+            objectFit={"cover"}
+            bg={imageBg}
+            opacity={soldOut ? 0.5 : 1}
+          />
+        </AspectRatio>
+
+        <Badge
+          position="absolute"
+          top={2}
+          left={2}
+          zIndex={1}
+          variant="solid"
+          colorPalette={stock.palette}
+          rounded="full"
+          px={2}
+        >
+          {stock.label}
+        </Badge>
+      </Box>
 
       <VStack gap={3} alignItems={"stretch"} p={2} flex={1}>
         <HStack
@@ -78,13 +108,14 @@ const ProductCard = ({ product }: { product: ProductDetail }) => {
               addToCart(product);
               toast(true, "Cart added successfully");
             }}
+            disabled={soldOut}
             colorPalette={"purple"}
             rounded={"lg"}
             size={"sm"}
             h="42px" // Explicit height to match stepper
           >
-            <LuShoppingCart size={16} />
-            Add to cart
+            {!soldOut && <LuShoppingCart size={16} />}
+            {soldOut ? "Out of stock" : "Add to cart"}
           </Button>
         ) : (
           <HStack
@@ -112,6 +143,7 @@ const ProductCard = ({ product }: { product: ProductDetail }) => {
             <IconButton
               aria-label="Increase quantity"
               onClick={() => updateQuantity(product._id, "increase")}
+              disabled={atLimit}
               size={"sm"}
               variant={"ghost"}
               rounded={"md"}

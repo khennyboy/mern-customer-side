@@ -13,7 +13,7 @@ import ErrorBoundary from "./component/ErrorBoundary.tsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: 1000 * 60, //1hr
       retry: 0,
     },
   },

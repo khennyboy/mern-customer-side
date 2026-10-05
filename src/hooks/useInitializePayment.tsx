@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CartedItem } from "../utils/types";
+import toast from "../utils/toast";
 
 interface InitializePaymentPayload {
   name: string;
@@ -39,11 +40,20 @@ const initializePayment = async (
 };
 
 const useInitializePayment = () => {
-  const { mutate: checkout, isPending: isCheckingOut } = useMutation({
+  const queryClient = useQueryClient();
+
+  const { mutate: checkout, isPending: isCheckingOut } = useMutation<
+    InitializePaymentResponse,
+    Error,
+    InitializePaymentPayload
+  >({
     mutationFn: initializePayment,
     onSuccess: (data) => {
-      // Paystack gives you a hosted payment page — send the browser there
       window.location.replace(data.authorization_url);
+    },
+    onError: (error) => {
+      toast(false, error.message);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
 

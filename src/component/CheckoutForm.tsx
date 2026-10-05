@@ -1,14 +1,13 @@
 import { Button, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { checkoutSchema } from "../utils/schema";
-import { useCartStore } from "../store/cart-store";
-import FloatingInput from "./FloatingInput";
 import useInitializePayment from "../hooks/useInitializePayment";
+import { useCartStore } from "../store/cart-store";
+import { checkoutSchema } from "../utils/schema";
 import type { CartedItem } from "../utils/types";
-import useAutofillRevalidate from "../hooks/useAutofillRevalidate";
-import { useRef, useState } from "react";
+import FloatingInput from "./FloatingInput";
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
@@ -22,18 +21,16 @@ const CheckoutForm = () => {
   const {
     control,
     handleSubmit,
-    trigger,
     formState: { errors, isValid },
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
-    mode: "onBlur",
-    reValidateMode: "onChange",
+    mode: "onTouched",
     defaultValues: { name: "", email: "", phone: "", address: "" },
   });
 
   const onSubmit = (values: CheckoutFormValues) => {
     const orderItems: CartedItem[] = items.map((item) => ({
-      product: item._id, // rename _id → product
+      product: item._id, 
       name: item.name,
       price: item.price,
       quantity: item.quantity,
@@ -50,8 +47,6 @@ const CheckoutForm = () => {
       },
     );
   };
-
-  useAutofillRevalidate(formRef, trigger);
 
   return (
     <VStack

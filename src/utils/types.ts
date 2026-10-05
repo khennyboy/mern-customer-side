@@ -7,7 +7,7 @@ export type ProductDetail = {
     _id: string;
     createdAt: string;
     updatedAt: string;
-    __v: number;
+    quantity: number;
 }
 
 export type CartItemDetails = ProductDetail & { quantity: number };
