@@ -128,7 +128,7 @@ const PaymentVerifyPage = () => {
               Payment not completed
             </Text>
             <Text color="gray.500" mt={2}>
-              If you were charged, please contact us with your reference below.
+              If you were charged, please contact us on +2347026771744 with your reference below.
             </Text>
             {referenceLine}
             <Button mt={4} variant="outline" onClick={() => navigate("/cart")}>
