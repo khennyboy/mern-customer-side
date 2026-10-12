@@ -1,11 +1,13 @@
 import {
-  Container,
-  SimpleGrid,
-  Text,
   Box,
-  Heading,
+  Button,
   Center,
+  Container,
+  HStack,
+  Heading,
+  SimpleGrid,
   Spinner,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
@@ -17,6 +19,7 @@ import { computePagination } from "../utils/compute-pagination";
 import ProductCard from "../component/product-card";
 import Productpagination from "../component/ProductPagination";
 import { useColorModeValue } from "../components/ui/color-mode";
+import { CATEGORIES } from "../utils/schema";
 
 const HomePage = () => {
   const subTextColor = useColorModeValue("gray.500", "gray.400");
@@ -26,17 +29,31 @@ const HomePage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const category = searchParams.get("category") || "all";
 
   const products = useProductStore((state) => state.products);
   const totalProducts = useProductStore((state) => state.totalProducts);
   const pageSize = useProductStore((state) => state.pageSize);
 
-  const goToPage = (p: number) => {
-    setSearchParams({ page: String(p) });
-  };
+  const { isLoading, error, isPlaceholderData } = useGetProducts();
+
   const pagination = computePagination(page, totalProducts, pageSize);
 
-  const { isLoading, error } = useGetProducts(page);
+  const setCategory = (value: string) => {
+    setSearchParams((prev) => {
+      if (value === "all") prev.delete("category");
+      else prev.set("category", value);
+      prev.delete("page"); // reset to page 1 on filter change
+      return prev;
+    });
+  };
+
+  const goToPage = (p: number) => {
+    setSearchParams((prev) => {
+      prev.set("page", String(p));
+      return prev;
+    });
+  };
 
   if (error) {
     return (
@@ -75,6 +92,7 @@ const HomePage = () => {
   return (
     <Container maxW={"1140px"} py={8} minH={"dvh"}>
       <VStack gap={7} align={"stretch"}>
+        {/* HEADING */}
         <VStack gap={0.5} align={"start"}>
           <Heading
             fontSize={"3xl"}
@@ -96,6 +114,43 @@ const HomePage = () => {
           )}
         </VStack>
 
+        {/* FILTER BAR */}
+        <HStack
+          gap={2}
+          overflowX="auto"
+          pb={2}
+          flexWrap={"wrap"}
+          css={{
+            "&::-webkit-scrollbar": { display: "none" },
+            scrollbarWidth: "none",
+          }}
+        >
+          <Button
+            size="sm"
+            rounded="full"
+            flexShrink={0}
+            colorPalette="purple"
+            variant={category === "all" ? "solid" : "outline"}
+            onClick={() => setCategory("all")}
+          >
+            All
+          </Button>
+          {CATEGORIES.map((cat) => (
+            <Button
+              key={cat}
+              size="sm"
+              rounded="full"
+              flexShrink={0}
+              colorPalette="purple"
+              variant={category === cat ? "solid" : "outline"}
+              onClick={() => setCategory(cat)}
+            >
+              {cat}
+            </Button>
+          ))}
+        </HStack>
+
+        {/* GRID */}
         {isLoading ? (
           <Center py={24}>
             <Spinner size="lg" color="purple.500" />
@@ -117,7 +172,9 @@ const HomePage = () => {
                 fontSize={"lg"}
                 color={headingColor}
               >
-                No products available
+                {category === "all"
+                  ? "No products available"
+                  : "No products match this filter"}
               </Text>
               <Text
                 color={subTextColor}
@@ -125,7 +182,9 @@ const HomePage = () => {
                 maxW={"280px"}
                 textAlign={"center"}
               >
-                Check back later — new items are added regularly.
+                {category === "all"
+                  ? "Check back later — new items are added regularly."
+                  : "Try a different category or view all products."}
               </Text>
             </VStack>
           </Box>
@@ -134,6 +193,9 @@ const HomePage = () => {
             <SimpleGrid
               columns={{ base: 2, md: 3, lg: 4 }}
               gap={{ base: 4, md: 6 }}
+              opacity={isPlaceholderData ? 0.5 : 1}
+              transition="opacity 0.2s ease"
+              pointerEvents={isPlaceholderData ? "none" : "auto"}
             >
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />

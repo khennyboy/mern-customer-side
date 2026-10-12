@@ -33,7 +33,7 @@ const initializePayment = async (
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to initialize payment");
+    throw new Error("Failed to initialize payment, please try again!");
   }
 
   return data;

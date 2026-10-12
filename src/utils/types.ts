@@ -1,16 +1,43 @@
 import type { InputProps } from "@chakra-ui/react";
 
+// ─── Category ─────────────────────────────────────────────────
+export const CATEGORIES = [
+    "Electronics",
+    "Fashion",
+    "Home",
+    "Beauty",
+    "Sports",
+    "Books",
+    "Toys",
+    "Wears",
+    "Others",
+] as const;
+
+export type Category = (typeof CATEGORIES)[number];
+
+// ─── Product ──────────────────────────────────────────────────
+export type ProductImage = {
+    url: string;
+    publicId: string;
+};
+
 export type ProductDetail = {
-    name: string;
-    price: number;
-    image: string;
     _id: string;
+    name: string;
+    slug: string;
+    description: string;
+    category: Category;
+    price: number;
+    quantity: number;
+    images: ProductImage[];
     createdAt: string;
     updatedAt: string;
-    quantity: number;
-}
+};
 
-export type CartItemDetails = ProductDetail & { quantity: number };
+// ─── Cart ─────────────────────────────────────────────────────
+export type CartItemDetails = ProductDetail & {
+    quantity: number;
+};
 
 export type CartState = {
     items: CartItemDetails[];
@@ -18,21 +45,21 @@ export type CartState = {
     removeFromCart: (id: string) => void;
     updateQuantity: (id: string, action: "increase" | "decrease") => void;
     totalPrice: () => number;
-    clearCart: () => void
+    clearCart: () => void;
 };
 
+// ─── Product store ────────────────────────────────────────────
 export type ProductStore = {
     products: ProductDetail[];
     setProducts: (products: ProductDetail[]) => void;
     totalProducts: number;
     pageSize: number;
     setCounts: (totalProducts: number, pageSize: number) => void;
-    CartDialog: boolean,
-    setCartDialog: (open: boolean) => void
+    CartDialog: boolean;
+    setCartDialog: (open: boolean) => void;
 };
 
-
-// for GET /products — returns a LIST
+// ─── API responses ────────────────────────────────────────────
 export type GetProductsSuccessResponse = {
     success: true;
     data: ProductDetail[];
@@ -54,13 +81,9 @@ export type Pagination = {
 };
 
 
-// utils/types.ts
-export interface Product {
-    _id: string;
-    name: string;
-    price: number;
-    image: string;
-}
+export type OrderStatus = "unconfirmed" | "confirmed";
+export type DeliveryStatus = "pending" | "delivered";
+export type RefundStatus = "refund_needed" | "refunded";
 
 export interface CartedItem {
     product: string; // the Product's _id
@@ -78,13 +101,19 @@ export interface Order {
     items: CartedItem[];
     totalAmount: number;
     paystackReference: string;
-    paymentStatus: "pending" | "success" | "failed";
-    deliveryStatus: "pending" | "delivered";
+    orderStatus?: OrderStatus;
+    expiresAt?: string;
+    refundItems?: CartedItem[];
+    refundAmount?: number;
+    refundStatus?: RefundStatus;
+    refundedAt?: string;
+    deliveryStatus?: DeliveryStatus;
     createdAt: string;
     updatedAt: string;
 }
 
+
 export type FloatingInputProps = InputProps & {
     label: string;
-    error?: string
+    error?: string;
 };
