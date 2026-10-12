@@ -123,7 +123,7 @@ const CartPage = () => {
                 <HStack py={5} gap={4} align={"start"}>
                   {/* <AspectRatio ratio={1}> */}
                   <Image
-                    src={item.image}
+                    src={item.images[0]?.url}
                     alt={item.name}
                     width={{ base: "80px", sm: "90px" }}
                     objectFit={"cover"}
@@ -274,7 +274,7 @@ const CartPage = () => {
                 </Text>
               </HStack>
               <Button
-              onClick={()=>setCartDialog(true)}
+                onClick={() => setCartDialog(true)}
                 colorPalette={"purple"}
                 w={"full"}
                 rounded={"full"}
